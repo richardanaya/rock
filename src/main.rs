@@ -18,6 +18,11 @@ fn test() -> &'static str {
     "Hello, world!"
 }
 
+#[get("/manifest.json")]
+fn manifest() -> io::Result<NamedFile> {
+    NamedFile::open("static/manifest.json")
+}
+
 #[get("/<_file..>")]
 fn files(_file: PathBuf) -> io::Result<NamedFile> {
     NamedFile::open("static/index.html")
@@ -25,6 +30,6 @@ fn files(_file: PathBuf) -> io::Result<NamedFile> {
 
 fn main() {
     rocket::ignite()
-        .mount("/", routes![index, files, test])
+        .mount("/", routes![index, files, manifest, test])
         .launch();
 }
