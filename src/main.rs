@@ -23,6 +23,11 @@ fn manifest() -> io::Result<NamedFile> {
     NamedFile::open("static/manifest.json")
 }
 
+#[get("/service-worker.js")]
+fn sw() -> io::Result<NamedFile> {
+    NamedFile::open("static/service-worker.js")
+}
+
 #[get("/images/<file..>")]
 fn images(file: PathBuf) -> Option<NamedFile> {
     NamedFile::open(Path::new("static/images/").join(file)).ok()
@@ -40,6 +45,6 @@ fn files(_file: PathBuf) -> io::Result<NamedFile> {
 
 fn main() {
     rocket::ignite()
-        .mount("/", routes![index, manifest, test, images, scripts, files])
+        .mount("/", routes![index, manifest, test, sw, images, scripts, files])
         .launch();
 }
