@@ -16,6 +16,7 @@ RUN set -eux; \
 WORKDIR /src
 COPY Cargo.toml Cargo.lock Rocket.toml /src/
 COPY src /src/src
+COPY static /src/static
 RUN cargo build --release
 EXPOSE 3000
 CMD cargo run --release
