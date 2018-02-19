@@ -3,11 +3,28 @@
 
 extern crate rocket;
 
+use std::io;
+use std::path::PathBuf;
+
+use rocket::response::NamedFile;
+
 #[get("/")]
-fn index() -> &'static str {
+fn index() -> io::Result<NamedFile> {
+    NamedFile::open("static/index.html")
+}
+
+#[get("/api/test")]
+fn test() -> &'static str {
     "Hello, world!"
 }
 
+#[get("/<_file..>")]
+fn files(_file: PathBuf) -> io::Result<NamedFile> {
+    NamedFile::open("static/index.html")
+}
+
 fn main() {
-    rocket::ignite().mount("/", routes![index]).launch();
+    rocket::ignite()
+        .mount("/", routes![index, files, test])
+        .launch();
 }
