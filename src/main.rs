@@ -4,7 +4,7 @@
 extern crate rocket;
 
 use std::io;
-use std::path::PathBuf;
+use std::path::{Path,PathBuf};
 
 use rocket::response::NamedFile;
 
@@ -23,13 +23,23 @@ fn manifest() -> io::Result<NamedFile> {
     NamedFile::open("static/manifest.json")
 }
 
-#[get("/<_file..>")]
+#[get("/images/<file..>")]
+fn images(file: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/images/").join(file)).ok()
+}
+
+#[get("/js/<file..>")]
+fn scripts(file: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/js/").join(file)).ok()
+}
+
+#[get("/<_file..>", rank = 2)]
 fn files(_file: PathBuf) -> io::Result<NamedFile> {
     NamedFile::open("static/index.html")
 }
 
 fn main() {
     rocket::ignite()
-        .mount("/", routes![index, files, manifest, test])
+        .mount("/", routes![index, manifest, test, images, scripts, files])
         .launch();
 }

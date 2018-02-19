@@ -5,5 +5,10 @@
   "display": "standalone",
   "theme_color": "#fff",
   "background_color": "#fff",
-  "description": "A simple website"
+  "description": "A simple website",
+  "icons": [{
+    "src": "images/icon_512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
 }
