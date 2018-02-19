@@ -5,7 +5,7 @@ authors = [ "somebody" ]
 
 [[bin]]
 name = "hello_world"
-path = "src/main.rs"
+path = "src/server/main.rs"
 
 [dependencies]
 rocket = "0.3.6"
